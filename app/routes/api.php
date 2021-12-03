@@ -20,6 +20,6 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::prefix("proxy")->group(function () {
-    Route::any('/{query}', [ProxyController::class, 'proxy']);
-//        ->where('query', "/*");
+    Route::any('/{query}', [ProxyController::class, 'proxy'])
+        ->where('query', "/*");
 });

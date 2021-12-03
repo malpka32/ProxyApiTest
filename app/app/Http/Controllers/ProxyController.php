@@ -14,9 +14,9 @@ use Illuminate\Support\Facades\Http;
 
 class ProxyController extends Controller
 {
-    public function proxy(Request $request, CookieJar $cookieJar, string $query)//: Response|Application|ResponseFactory
+    public function proxy(Request $request, CookieJar $cookieJar, string $query): Response|Application|ResponseFactory
     {
-        $user = $request->user()->toArray();
+        $user = $request->user();
 
         $authURL = config('services.external.url') . "/auth/" . $query;
         $apiURL = config('services.external.url') . "/api/" . $query;
@@ -53,6 +53,11 @@ class ProxyController extends Controller
         !$request->hasFile("file")
             ?: $response->attach(...$attachment);
 
-        return $response->$method($apiURL, $queryBody);
+        $response = $response->$method($apiURL, $queryBody);
+
+        return response($response)->header(
+            "Content-Type",
+            $response->header("Content-Type")
+        );
     }
 }
