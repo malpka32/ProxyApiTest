@@ -1,0 +1,13 @@
+version: '3.9'
+services:
+  app:
+    build:
+      context: .
+      dockerfile: app.dockerfile
+    volumes:
+      - ./:/workspace
+    ports:
+      - 80:80
+#    stdin_open: true
+#    tty: true
+    command: php artisan serve --host=0.0.0.0 --port 80
